@@ -2,8 +2,6 @@
 
 RPN::RPN(){}
 
-RPN::RPN(char *str) : str_(str){}
-
 RPN::~RPN(){}
 
 RPN::RPN(const RPN & origin)
@@ -13,7 +11,7 @@ RPN::RPN(const RPN & origin)
 
 RPN & RPN::operator=(const RPN & origin)
 {
-	this->str_ = origin.str_;
+	this->pile_ = origin.pile_;
 	return *this;
 }
 
@@ -31,30 +29,42 @@ void RPN::operation(char c)
 		pile_.pop();
 		if (c == '+')
 			pile_.push(operator1 + operator2);
-		if (c == '-')
+		else if (c == '-')
 			pile_.push(operator1 - operator2);
-		if (c == '*')
+		else if (c == '*')
 			pile_.push(operator1 * operator2);
-		if (c == '/')
+		else if (c == '/')
 			pile_.push(operator1 / operator2);
+		else
+			throw std::exception();
 	}
 	else
-		throw "calcul impossible";
+		throw std::exception();
 }
 
-int	RPN::calcul()
+int	RPN::calcul(char *str)
 {
 	int i = 0;
-	while(str_[i])
+	while(str[i])
 	{
-		if (isdigit(str_[i]))
-			pile_.push(str_[i] - '0');
+		if (isdigit(str[i]))
+			pile_.push(str[i] - '0');
 		else
-			operation(str_[i]);
+			operation(str[i]);
 		i++;
 	}
 	if (pile_.size() == 1)
 		return pile_.top();
 	else
-		throw "calcul impossible";
+		throw std::exception();
+}
+
+void RPN::printstack()
+{
+	while (!pile_.empty()) 
+	{
+    	std::cout << pile_.top() << " ";
+    	pile_.pop();
+	}
+	std::cout << std::endl;
 }

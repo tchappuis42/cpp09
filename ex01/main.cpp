@@ -5,13 +5,13 @@ int main(int ac, char **av)
 	try
 	{
 		if (ac != 2)
-			throw "pas le bon nombre d'argument";
+			throw std::exception();
 
-		RPN rpn(av[1]);
-		std::cout << rpn.calcul() << std::endl;
+		RPN rpn;
+		std::cout << rpn.calcul(av[1]) << std::endl;
 	}
-	catch(const char *error)
-	{
-		std::cout << error << std::endl;
-	}
+ 	catch(const std::exception& e)
+ 	{
+ 		std::cerr << e.what() << '\n';
+ 	}
 }

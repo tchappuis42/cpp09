@@ -9,16 +9,15 @@ class RPN
 {
 private:
 	std::stack<int> pile_;
-	char *str_;
 public:
 	RPN();
-	RPN(char *str);
 	RPN(const RPN & origin);
 	RPN & operator=(const RPN & origin);
 	~RPN();
 
-	int	calcul();
+	int	calcul(char *str);
 	void operation(char c);
+	void printstack();
 };
 
 #endif
