@@ -71,8 +71,6 @@ void	BitcoinExchange::pushInfo()
 	//chek date
 	//chek num
 	//si tout ok print msg = calcul (fonction)
-
-	
 }
 
 const std::string BitcoinExchange::printQueue() const
