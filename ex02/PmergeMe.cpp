@@ -6,15 +6,31 @@ PmergeMe::~PmergeMe() {}
 
 void	PmergeMe::printVector()
 {
+	int i = 0;
 	for (std::vector<int>::iterator it = vector_.begin(); it < vector_.end(); it++)
-			std::cout << " " << *it;
+	{
+		if(++i > 5)
+		{
+			std::cout << " [...]";
+			break;
+		}
+		std::cout << " " << *it;
+	}
 	std::cout << std::endl;
 }
 
 void	PmergeMe::printList()
 {
+	int i = 0;
 	for (std::list<int>::iterator it = list_.begin(); it != list_.end(); it++)
-			std::cout << " " << *it;
+	{
+		if(++i > 5)
+		{
+			std::cout << " [...]";
+			break;
+		}
+		std::cout << " " << *it;
+	}
 	std::cout << std::endl;
 }
 
