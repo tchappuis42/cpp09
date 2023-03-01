@@ -33,8 +33,12 @@ void RPN::operation(char c)
 			pile_.push(operator1 - operator2);
 		else if (c == '*')
 			pile_.push(operator1 * operator2);
-		else if (c == '/')
+		else if (c == '/') // todo /0 
+		{
+			if (operator2 == 0)
+				throw std::exception();
 			pile_.push(operator1 / operator2);
+		}
 		else
 			throw std::exception();
 	}
