@@ -9,7 +9,7 @@ void	PmergeMe::printVector()
 	int i = 0;
 	for (std::vector<int>::iterator it = vector_.begin(); it < vector_.end(); it++)
 	{
-		if(++i > 5)
+		if(++i > 8)
 		{
 			std::cout << " [...]";
 			break;
@@ -24,7 +24,7 @@ void	PmergeMe::printList()
 	int i = 0;
 	for (std::list<int>::iterator it = list_.begin(); it != list_.end(); it++)
 	{
-		if(++i > 5)
+		if(++i > 8)
 		{
 			std::cout << " [...]";
 			break;
@@ -37,11 +37,15 @@ void	PmergeMe::printList()
 void	is_Num(char *tab)
 {
 	std::string str = tab;
+	if (str[0] == '-')
+		throw "Error: not a positive number.";
+	if (str.length() > 10 || (str.length() == 10 && str > "2147483647"))
+		throw "Error: too large a number.";
 	if (!str.empty() && str.find_first_not_of("0123456789") != std::string::npos)
-		std::cout << "error\n";
+		throw "Error: not a number.";
 }
 
-void	PmergeMe::ft_sort(char **tab)
+void	PmergeMe::ft_sort(char **tab) //int max
 {
 	double Vtime, Ltime;
 	int i = 1;
@@ -51,8 +55,6 @@ void	PmergeMe::ft_sort(char **tab)
 	{
 		is_Num(tab[i]);
 		std::istringstream(tab[i]) >> nb;
-		if (nb < 0)
-			std::cout << "error\n";
 		vector_.push_back(nb);
 		list_.push_back(nb);
 		i++;
@@ -71,17 +73,18 @@ void	PmergeMe::ft_sort(char **tab)
 double PmergeMe::VSort() 
 {
 	std::clock_t start, end;
+	int	n, temp;
 	double result;
 
 	start = clock();
-	int n = vector_.size();
+	n = vector_.size();
 	for (int i = 0; i < n - 1; i++) 
 	{
 		for (int j = 0; j < n - i - 1; j++) 
 		{
 			if (vector_[j] > vector_[j + 1]) 
 			{
-				int temp = vector_[j];
+				temp = vector_[j];
 				vector_[j] = vector_[j + 1];
 				vector_[j + 1] = temp;
 			}
@@ -96,11 +99,12 @@ double PmergeMe::LSort()
 {
 	std::clock_t start, end;
 	double result;
+	int temp;
 
 	start = clock();
 	for (std::list<int>::iterator i = ++list_.begin(); i != list_.end(); ++i)
 	{
-		int temp = *i;
+		temp = *i;
 		std::list<int>::iterator j = i;
 		while (j != list_.begin() && *(--j) > temp)
 		{

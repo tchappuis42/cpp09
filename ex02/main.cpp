@@ -4,13 +4,13 @@ int main(int ac, char **av)
 {
 	try
 	{
-		if (ac < 1)
-			return 0;
+		if (ac < 2)
+			throw "Error: not the right number of arguments.";
 		PmergeMe test;
 		test.ft_sort(av);
 	}
- 	catch(const std::exception& e)
+ 	catch(const char *str)
  	{
- 		std::cerr << e.what() << '\n';
+ 		std::cerr << str << '\n';
  	}
 }
