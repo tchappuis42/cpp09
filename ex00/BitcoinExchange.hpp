@@ -2,6 +2,7 @@
 # define BITCOINEXCHANGE_H
 
 #include <queue>
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,32 +11,68 @@
 class BitcoinExchange
 {
 private:
-	std::string str_;
+	std::map<std::string, float> _map;
+
 public:
 	BitcoinExchange();
-	BitcoinExchange(const std::string & str);
 	~BitcoinExchange();
 
-	const  std::string	printQueue() const;
-	void	pushInfo();
+	void	init_csv();
+	void	Bitcoin(char *file);
+	void	CheckInfo(std::string info);
 
 	bool checkDate(const std::string & str);
 	bool checkValue(const std::string & str);
+
+	void	printBit(std::string date, float nb);
+
+	float	GetBitValue(std::string date);
 };
 
 #endif
 
 BitcoinExchange::BitcoinExchange() {}
 
-BitcoinExchange::BitcoinExchange(const std::string & str) : str_(str) {}
-
 BitcoinExchange::~BitcoinExchange() {}
 
-void	BitcoinExchange::pushInfo()
+void	BitcoinExchange::init_csv()
+{
+	std::ifstream csv("data.csv");
+	std::string read;
+	float nb;
+	size_t size;
+
+	while(getline(csv, read))
+ 	{
+		if (read != "date,exchange_rate")
+		{
+			size = read.find(',');
+			std::istringstream(read.substr(size + 1, read.length())) >> nb;
+			_map[read.substr(0, size)] = nb;
+		}
+	}
+	//std::cout << std::fixed << std::setprecision(2);
+	// for (std::map<std::string, float>::iterator it = _map.begin(); it != _map.end(); it++)
+	// {
+	// 	std::cout << "date = " << (*it).first << " value  = " << (*it).second << std::endl;
+	// }
+}
+
+
+void	BitcoinExchange::Bitcoin(char *file)
+{
+ 	std::ifstream configfile(file);
+	std::string read;
+
+	while(getline(configfile, read))
+		CheckInfo(read);
+}
+
+void	BitcoinExchange::CheckInfo(std::string info)
 {
 	std::string date, s;
-	double	value;
-	std::istringstream ss(str_);
+	float	value;
+	std::istringstream ss(info);
 	int i = 0;
 
 	while (std::getline(ss, s, ' '))
@@ -48,7 +85,7 @@ void	BitcoinExchange::pushInfo()
 		}
 		if (i == 1 && s != "|")
 		{
-			std::cout << "Error: bad input => " << str_ << std::endl;
+			std::cout << "Error: bad input => " << info << std::endl;
 			return ;
 		}
 		if (i == 2)
@@ -62,20 +99,11 @@ void	BitcoinExchange::pushInfo()
 
 	if (i != 3)
 	{
-			std::cout << "Error: bad input => " << str_ << std::endl;
+			std::cout << "Error: bad input => " << info << std::endl;
 			return ;
 	}
-	std::cout << "date = " << date << " value = "  << value << std::endl;
-	//combien de space si pas bon print error
-	//chek le | si pas bon error
-	//chek date
-	//chek num
+	printBit(date, value);
 	//si tout ok print msg = calcul (fonction)
-}
-
-const std::string BitcoinExchange::printQueue() const
-{
-	return str_;
 }
 
 bool BitcoinExchange::checkDate(const std::string & str)
@@ -163,4 +191,31 @@ bool BitcoinExchange::checkValue(const std::string & str)
 		return false;
 	}
 	return true;
+}
+
+void	BitcoinExchange::printBit(std::string date, float nb)
+{
+	float res;
+
+	res = GetBitValue(date) * nb;
+
+	std::cout << std::fixed << std::setprecision(2);
+	//std::cout << GetBitValue(date) << std::endl;
+	std::cout << date << " => " << nb << " = " << res << std::endl;
+}
+
+float	BitcoinExchange::GetBitValue(std::string date)
+{
+	std::map<std::string, float>::const_iterator it;
+
+	it  = _map.find(date);
+	if (it != _map.end())
+	{
+		return (it->second);
+	}
+	else
+	{
+		it = _map.lower_bound(date);
+		return (it->second);
+	}
 }

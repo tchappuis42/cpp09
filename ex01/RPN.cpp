@@ -36,14 +36,14 @@ void RPN::operation(char c)
 		else if (c == '/') // todo /0 
 		{
 			if (operator2 == 0)
-				throw std::exception();
+				throw "error";
 			pile_.push(operator1 / operator2);
 		}
 		else
-			throw std::exception();
+			throw "error";
 	}
 	else
-		throw std::exception();
+		throw "error";
 }
 
 int	RPN::calcul(char *str)
@@ -60,7 +60,7 @@ int	RPN::calcul(char *str)
 	if (pile_.size() == 1)
 		return pile_.top();
 	else
-		throw std::exception();
+		throw "error";
 }
 
 void RPN::printstack()

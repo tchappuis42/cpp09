@@ -45,6 +45,9 @@
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
 		"typeinfo": "cpp",
-		"chrono": "cpp"
+		"chrono": "cpp",
+		"stack": "cpp",
+		"__locale": "cpp",
+		"bitset": "cpp"
 	}
 }

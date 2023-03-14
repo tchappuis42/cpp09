@@ -2,16 +2,10 @@
 
 int main(int ac, char **av)
 {
-	std::queue<BitcoinExchange> bit;
-	std::ifstream configfile(av[1]);
-	std::string read;
+	BitcoinExchange bit;
 
-	while(getline(configfile, read))
-		bit.push(BitcoinExchange(read));
-
-	while(!bit.empty())
-	{
-		bit.front().pushInfo();
-		bit.pop();
-	}
+	if(ac < 1)
+		return 0;
+	bit.init_csv();
+	bit.Bitcoin(av[1]);
 }
