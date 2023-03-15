@@ -48,6 +48,10 @@
 		"chrono": "cpp",
 		"stack": "cpp",
 		"__locale": "cpp",
-		"bitset": "cpp"
+		"bitset": "cpp",
+		"ctime": "cpp",
+		"list": "cpp",
+		"map": "cpp",
+		"iomanip": "cpp"
 	}
 }
