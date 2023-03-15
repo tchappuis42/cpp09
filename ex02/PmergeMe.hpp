@@ -16,6 +16,8 @@ private:
 
 public:
 	PmergeMe();
+	PmergeMe(const PmergeMe & origin);
+	PmergeMe & operator=(const PmergeMe & origin);
 	~PmergeMe();
 
 	void	ft_sort(char **tab);

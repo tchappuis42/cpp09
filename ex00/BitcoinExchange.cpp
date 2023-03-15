@@ -4,6 +4,17 @@ BitcoinExchange::BitcoinExchange() {}
 
 BitcoinExchange::~BitcoinExchange() {}
 
+BitcoinExchange::BitcoinExchange(const BitcoinExchange & origin)
+{
+	*this = origin; 
+}
+
+BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange & origin)
+{
+	this->_map = origin._map;
+	return *this;
+}
+
 void	BitcoinExchange::init_csv()
 {
 	std::ifstream csv("data.csv");

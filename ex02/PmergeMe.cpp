@@ -4,6 +4,18 @@ PmergeMe::PmergeMe() {}
 
 PmergeMe::~PmergeMe() {}
 
+PmergeMe::PmergeMe(const PmergeMe & origin)
+{
+	*this = origin; 
+}
+
+PmergeMe & PmergeMe::operator=(const PmergeMe & origin)
+{
+	this->vector_ = origin.vector_;
+	this->list_ = origin.list_;
+	return *this;
+}
+
 void	PmergeMe::printVector()
 {
 	int i = 0;

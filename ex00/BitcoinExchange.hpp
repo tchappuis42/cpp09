@@ -15,6 +15,8 @@ private:
 
 public:
 	BitcoinExchange();
+	BitcoinExchange(const BitcoinExchange & origin);
+	BitcoinExchange & operator=(const BitcoinExchange & origin);
 	~BitcoinExchange();
 
 	void	init_csv();
