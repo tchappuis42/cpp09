@@ -33,17 +33,17 @@ void RPN::operation(char c)
 			pile_.push(operator1 - operator2);
 		else if (c == '*')
 			pile_.push(operator1 * operator2);
-		else if (c == '/') // todo /0 
+		else if (c == '/')
 		{
 			if (operator2 == 0)
-				throw "error";
+				throw "Error: divide by 0";
 			pile_.push(operator1 / operator2);
 		}
 		else
-			throw "error";
+			throw "Error: bad operator";
 	}
 	else
-		throw "error";
+		throw "Error: calculation not possible";
 }
 
 int	RPN::calcul(char *str)
@@ -60,7 +60,7 @@ int	RPN::calcul(char *str)
 	if (pile_.size() == 1)
 		return pile_.top();
 	else
-		throw "error";
+		throw "Error: the stack is not empty";
 }
 
 void RPN::printstack()
