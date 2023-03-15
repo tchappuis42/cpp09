@@ -67,6 +67,11 @@ void	BitcoinExchange::CheckInfo(std::string info)
 			if (!checkValue(s))
 				return ;
 			std::istringstream(s) >> value;
+			if (value > 1000)
+			{
+				std::cout << "Error: too large a number.\n";
+				return ;
+			}
 		}
 		i++;
 	}
@@ -157,7 +162,7 @@ bool BitcoinExchange::checkValue(const std::string & str)
 		std::cout << "Error: not a positive number.\n";
 		return false;
 	}
-	if (str.length() > 4 || (str.length() == 4 && str > "1000"))
+	if (str.length() > 10 || (str.length() == 10 && str > "2147483647"))
 	{
 		std::cout << "Error: too large a number.\n";
 		return false;
