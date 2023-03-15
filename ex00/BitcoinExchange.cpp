@@ -82,7 +82,7 @@ bool BitcoinExchange::checkDate(const std::string & str)
 {
 	if (str.find('-', str.length() - 1) != std::string::npos)
 	{
-		std::cout << "Error: .\n";
+		std::cout << "Error: incorrect date\n";
 		return false;	
 	}
 	std::string s;
@@ -94,7 +94,7 @@ bool BitcoinExchange::checkDate(const std::string & str)
 		if (i == 0)
 		{
 			std::istringstream(s) >> year;
-			if (year < 2010 || year > 2022)
+			if (year < 2009 || year > 2022)
 			{
 				std::cout << "Error: incorrect year.\n";
 				return false;
@@ -132,7 +132,7 @@ bool BitcoinExchange::checkDate(const std::string & str)
 	}
 	if (i != 3)
 	{
-		std::cout << "Error: date incorect\n";
+		std::cout << "Error: incorrect date\n";
 		return false;
 	}
 	return true;
