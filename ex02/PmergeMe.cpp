@@ -12,7 +12,7 @@ PmergeMe::PmergeMe(const PmergeMe & origin)
 PmergeMe & PmergeMe::operator=(const PmergeMe & origin)
 {
 	this->vector_ = origin.vector_;
-	this->list_ = origin.list_;
+	this->deque_ = origin.deque_;
 	return *this;
 }
 
@@ -31,10 +31,10 @@ void	PmergeMe::printVector()
 	std::cout << std::endl;
 }
 
-void	PmergeMe::printList()
+void	PmergeMe::printDeque()
 {
 	int i = 0;
-	for (std::list<int>::iterator it = list_.begin(); it != list_.end(); it++)
+	for (std::deque<int>::iterator it = deque_.begin(); it != deque_.end(); it++)
 	{
 		if(++i > 8)
 		{
@@ -57,9 +57,10 @@ void	is_Num(char *tab)
 		throw "Error: not a number.";
 }
 
-void	PmergeMe::ft_sort(char **tab) //int max
+void	PmergeMe::ft_sort(char **tab)
 {
-	double Vtime, Ltime;
+	std::clock_t start, end;
+	double Vtime, Dtime;
 	int i = 1;
 	int nb = 0;
 
@@ -68,65 +69,23 @@ void	PmergeMe::ft_sort(char **tab) //int max
 		is_Num(tab[i]);
 		std::istringstream(tab[i]) >> nb;
 		vector_.push_back(nb);
-		list_.push_back(nb);
+		deque_.push_back(nb);
 		i++;
 	}
 	std::cout << "Before :";
 	printVector();
-	Vtime = VSort();
-	Ltime = LSort();
+	start = clock();
+	merge_sort(vector_, 0, vector_.size() - 1);
+	end = clock();
+	Vtime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
+	start = clock();
+	merge_sort(deque_, 0, vector_.size() - 1);
+	end = clock();
+	Dtime = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
 	std::cout << "After :";
 	printVector();
+	//printDeque();
 	std::cout << std::fixed << std::setprecision(3);
 	std::cout << "Time to process a range of "<< vector_.size() <<  " elements with std::vector : " << Vtime << " ms\n";
-	std::cout << "Time to process a range of "<< list_.size() <<  " elements with std::list : " << Ltime << " ms\n";
-}
-
-double PmergeMe::VSort() 
-{
-	std::clock_t start, end;
-	int	n, temp;
-	double result;
-
-	start = clock();
-	n = vector_.size();
-	for (int i = 0; i < n - 1; i++) 
-	{
-		for (int j = 0; j < n - i - 1; j++) 
-		{
-			if (vector_[j] > vector_[j + 1]) 
-			{
-				temp = vector_[j];
-				vector_[j] = vector_[j + 1];
-				vector_[j + 1] = temp;
-			}
-		}
-	}
-	end = clock();
-	result = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	return result;
-}
-
-double PmergeMe::LSort() 
-{
-	std::clock_t start, end;
-	double result;
-	int temp;
-
-	start = clock();
-	for (std::list<int>::iterator i = ++list_.begin(); i != list_.end(); ++i)
-	{
-		temp = *i;
-		std::list<int>::iterator j = i;
-		while (j != list_.begin() && *(--j) > temp)
-		{
-			*(++j) = *j;
-			j--;
-		}
-		*(++j) = temp;
-		j--;
-	}
-	end = clock();
-	result = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000;
-	return result;
+	std::cout << "Time to process a range of "<< deque_.size() <<  " elements with std::list : " << Dtime << " ms\n";
 }
